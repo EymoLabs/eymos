@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/EymoLabs/eymos">
-    <img src="./logo.png" alt="EymOS banner" width="258" height="100">
+    <img src="./logo.png" alt="EymOS banner" width="230" height="100" style="margin-bottom: -15px;">
   </a>
   <h3 align="center">EymOS - Lightweight Middleware for Robotics</h3>
   <p align="center">
