@@ -10,7 +10,7 @@ with open(os.path.join(here, "LICENSE"), "r", encoding="utf-8") as fh:
     license_text = fh.read()
 
 setup(
-    name="EymOS",
+    name="eymos",
     version="1.0.0",
     author="EymoLabs",
     author_email="info@dzin.es",
