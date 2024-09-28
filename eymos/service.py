@@ -3,7 +3,7 @@ import time
 import logging
 import threading
 
-from logger import log
+from .logger import log
 
 
 class Service(metaclass=abc.ABCMeta):
@@ -35,6 +35,7 @@ class Service(metaclass=abc.ABCMeta):
 		self._global_config = config
 		self._config = config[name] if name in config else {}
 		self._services = services
+		self._manager = None
 		self._loop_delay = self.LOOP_DELAY
 
 		# Service status
@@ -44,6 +45,7 @@ class Service(metaclass=abc.ABCMeta):
 
 		# Service thread
 		self.__thread = None
+		self.__thread_stop_event = threading.Event()
 
 		# Set the service
 		services[name] = self
@@ -80,11 +82,13 @@ class Service(metaclass=abc.ABCMeta):
 
 		# Call the thread method
 		if hasattr(self, 'before') or hasattr(self, 'loop'):
+			self.__thread_stop_event.clear()
 			self.__thread = threading.Thread(target=self.__thread_execution)
 			self.__thread.start()
 
 		# Set the service as initialized
 		self.__initialized = True
+		log(f'The {self._name} service has started successfully.')
 
 		# Start other services
 		services = {k: v for k, v in self._services.items() if not v.is_initialized()}
@@ -95,7 +99,9 @@ class Service(metaclass=abc.ABCMeta):
 		"""Stop the service."""
 		log(f'Stopping the {self._name} service...')
 		if self.__thread:
-			self.__thread.join()
+			self.__thread_stop_event.set()
+			if threading.current_thread() != self.__thread:
+				self.__thread.join()
 		self.destroy()
 		self.__initialized = False
 		self.__init_try = 0
@@ -126,8 +132,6 @@ class Service(metaclass=abc.ABCMeta):
 
 	def __thread_execution(self):
 		"""Service thread execution."""
-		log(f'Starting the {self._name} service thread...')
-
 		# Call the before method
 		if hasattr(self, 'before'):
 			self.before()
@@ -135,14 +139,16 @@ class Service(metaclass=abc.ABCMeta):
 		# Call the loop method
 		if hasattr(self, 'loop'):
 			if self._global_config.get('system', {}).get('debug', True):
-				while True:
+				while not self.__thread_stop_event.is_set():
 					self.loop()
-					time.sleep(self._loop_delay)
+					if self.__thread_stop_event.wait(self._loop_delay):
+						break
 			else:
 				while True:
 					try:
 						self.loop()
-						time.sleep(self._loop_delay)
+						if self.__thread_stop_event.wait(self._loop_delay):
+							break
 					except KeyboardInterrupt:
 						break
 					except Exception as e:

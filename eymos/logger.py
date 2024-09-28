@@ -7,15 +7,15 @@ class LoggerManager:
 	ENABLE = True
 
 	@staticmethod
-	def enable(level: int = logging.INFO, format: str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'):
+	def enable(level: int = logging.INFO, message: str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'):
 		"""Enable the logging."""
 		# Update the logger manager
 		LoggerManager.LEVEL = level
-		LoggerManager.FORMAT = format
+		LoggerManager.FORMAT = message
 		LoggerManager.ENABLE = True
 
 		# Set the logging level and format
-		logging.basicConfig(level=level, format=format)
+		logging.basicConfig(level=level, format=message)
 
 		# Log the message
 		logging.info("Logging enabled")
@@ -66,4 +66,3 @@ def log(message: str, level: int = None):
 		level (int, optional): The logging level. Defaults to logger.LEVEL.
 	"""
 	LoggerManager.log(message, level)
-	

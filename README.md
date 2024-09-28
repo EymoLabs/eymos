@@ -253,12 +253,14 @@ The service class has some attributes that can be used to configure the service 
 | _config | The configuration dictionary for the service. It contains the parameters specified in the configuration file (only the configuration dictionary identified by the service name). | `{}` (set in constructor) |
 | _global_config | The global configuration dictionary for all the services. It contains the parameters specified in the global configuration file.                                                 | `None` (set in constructor) |
 | _loop_delay | The delay between each loop iteration, in seconds. It controls the frequency of the loop method.                                                                                 | `self.LOOP_DELAY` |
+| _manager | The service manager object that is running the service.                                                                                                                          | `None` |
 | _name | The name of the service. It allows, for example, identifying other services and accessing to them (e.g., `self._services["camera"].get_frame()`).                                | `None` (set in constructor) |
 | _services | The dictionary of all the services in the service manager. It allows accessing other services and calling their methods.                                                         | `None` |
 | __errors | The number of consecutive errors that have occurred during the execution of the service.                                                                                         | `0` |
 | __initialized | A flag that indicates if the service has been initialized.                                                                                                                       | `False` |
 | __init_try | The number of times the service has tried to initialize.                                                                                                                         | `0` |
 | __thread | The thread object that is running in the service.                                                                                                                                | `None` |
+| __thread_stop_event | The event object that controls the stopping of the service thread.                                                                                                                | `None` |
 
 
 ### Definitions

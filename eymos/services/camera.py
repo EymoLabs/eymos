@@ -113,6 +113,7 @@ class CameraService(Service):
 
 		# Convert the frame to a PIL image, if needed
 		if frame_type == FrameType.IMAGE:
+			frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 			if self.__last_frame_image is None:
 				self.__last_frame_image = Image.fromarray(frame)
 			return self.__last_frame_image
