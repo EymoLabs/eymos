@@ -20,7 +20,7 @@
 - [What's included](#whats-included)
 - [Installation](#installation)
 	- [Prerequisites](#prerequisites)
-	- [Setup](#setup)
+	- [Setup](#setup-with-pip-recommended)
 - [Usage](#usage)
 - [Services](#services)
 	- [First steps](#first-steps)
@@ -29,7 +29,6 @@
     - [Attributes](#attributes)
     - [Definitions](#definitions)
 - [ServiceManager](#servicemanager)
-  - [Methods](#methods)
 - [Utilities](#utilities)
   - [Logger](#logger)
   - [My OS](#my-os)
@@ -68,7 +67,8 @@ root/
 │   ├── service_manager.py
 │   └── utils.py
 ├── examples/
-│   └── timer/
+│   ├── timer/
+│   └── camera_timer/
 ├── LICENSE
 ├── logo.png
 ├── README.md
@@ -80,9 +80,9 @@ root/
 
 ### Prerequisites
 Ensure you have the following installed on your system:
-- Python 3.12 or higher
+- Python 3.9 or higher
 
-### Setup with pip
+### Setup with pip (recommended)
 Use `pip` to install the package from PyPI.
 
 1. Install the package using `pip`:
@@ -283,8 +283,7 @@ Some constants are defined in the service class, which can be used to configure 
 ## ServiceManager
 The `ServiceManager` class is used to manage the services in the robot, including all the necessary operations to start, stop, restart, reboot, and configure the services, allowing the interaction between them.
 
-### Methods
-The `ServiceManager` class provides the following methods to manage the services:
+The class provides the following methods to manage the services:
 
 | Method | Description                                                                                                          |
 | --- |----------------------------------------------------------------------------------------------------------------------|
@@ -319,7 +318,8 @@ The following levels are available (require the `import logging` statement):
 
 #### Example
 ```python
-from eymos import log, logging
+import logging
+from eymos import log
 
 log("This is an info message")
 log("This is a debug message", logging.DEBUG)
