@@ -66,6 +66,13 @@ class ServiceManager:
 		# Get the service
 		return self._services[name]
 
+	def get_services(self) -> dict:
+		"""Get all services.
+		Returns:
+			dict: The services.
+		"""
+		return self._services
+
 	def start(self):
 		"""Start all services (in order)."""
 		# Check if there are services
@@ -87,13 +94,6 @@ class ServiceManager:
 		log('Stopping the services...')
 		for name in self._services:
 			self._services[name].stop()
-
-	def get_services(self) -> dict:
-		"""Get all services.
-		Returns:
-			dict: The services.
-		"""
-		return self._services
 
 	def restart(self):
 		"""Restart all services (in order)."""

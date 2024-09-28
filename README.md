@@ -28,6 +28,11 @@
     - [Methods](#methods)
     - [Attributes](#attributes)
     - [Definitions](#definitions)
+- [ServiceManager](#servicemanager)
+  - [Methods](#methods)
+- [Utilities](#utilities)
+  - [Logger](#logger)
+  - [My OS](#my-os)
 - [Bugs and feature requests](#bugs-and-feature-requests)
 - [Creators](#creators)
 - [Collaborators](#collaborators)
@@ -274,6 +279,75 @@ Some constants are defined in the service class, which can be used to configure 
 | MAX_ERRORS | The maximum number of consecutive errors that can occur before the service is stopped. Can be disabled by setting it to `-1`.        | `5` |
 | MAX_ERRORS_REBOOT | The maximum number of consecutive errors that can occur before **all the services** are rebooted. Can be disabled by setting it to `-1`. | `-1` (disabled) |
 
+
+## ServiceManager
+The `ServiceManager` class is used to manage the services in the robot, including all the necessary operations to start, stop, restart, reboot, and configure the services, allowing the interaction between them.
+
+### Methods
+The `ServiceManager` class provides the following methods to manage the services:
+
+| Method | Description                                                                                                          |
+| --- |----------------------------------------------------------------------------------------------------------------------|
+| `add` | Add a new service to the manager.                                                                                    |
+| `get` | Get a service instance from the manager.                                                                             |
+| `get_services` | Get a dictionary with all the services in the manager.                                                               |
+| `start` | Start all the services in the manager.                                                                               |
+| `stop` | Stop all the services in the manager.                                                                                |
+| `restart` | Restart all the services in the manager.                                                                             |
+| `reboot` | Reboot the system, forcing all the services to be stopped. This method requires elevated permissions to be executed. |
+| `exit` | Stop all the services and exit the program.                                                                          |
+| `set_config` | Set the global configuration dictionary for all the services.                                                         |
+| `set_config_file` | Set the global configuration file for all the services.                                                               |
+
+
+## Utilities
+EymOS provides some utilities that can be used to simplify the development of services and programs, including a logger and an OS utility.
+
+### Logger
+The `log(<message>, <type>)` function allows you to log messages to the console, with different levels of severity.
+
+#### Arguments
+The first argument is the message to log, and the second argument is the level of the message (by default, `logging.INFO`).
+
+#### Levels
+The following levels are available (require the `import logging` statement):
+- `logging.DEBUG`
+- `logging.INFO`
+- `logging.WARNING`
+- `logging.ERROR`
+- `logging.CRITICAL`
+
+#### Example
+```python
+from eymos import log, logging
+
+log("This is an info message")
+log("This is a debug message", logging.DEBUG)
+log("This is a warning message", logging.WARNING)
+log("This is an error message", logging.ERROR)
+log("This is a critical message", logging.CRITICAL)
+```
+
+### My OS
+The `utils.my_os()` function allows you to get the name of the operating system running on the device.
+
+#### Returns
+The function returns a string with the name of the operating system. The possible values are: `"Windows"`, `"Linux"`, `"Mac"` and `"Rpi"`. If the operating system is not recognized, the function returns `None`.
+
+#### Example
+```python
+from eymos import utils
+
+os_name = utils.my_os()
+print(f"Operating system: {os_name}")
+
+if os_name == "Rpi":
+	print("Do something specific for Raspberry Pi")
+elif os_name == "Mac":
+	print("Do something specific for Mac")
+else:
+	print("Do something generic")
+```
 
 ## Bugs and feature requests
 Have a bug or a feature request? Please search for existing and closed issues. If your problem or idea is not addressed yet, [open a new issue](https://github.com/EymoLabs/eymos/issues/new).
