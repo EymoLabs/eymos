@@ -17,6 +17,7 @@
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [What's included](#whats-included)
 - [Installation](#installation)
 	- [Prerequisites](#prerequisites)
 	- [Setup](#setup)
@@ -27,7 +28,6 @@
     - [Methods](#methods)
     - [Attributes](#attributes)
     - [Definitions](#definitions)
-- [What's included](#whats-included)
 - [Bugs and feature requests](#bugs-and-feature-requests)
 - [Creators](#creators)
 - [Collaborators](#collaborators)
@@ -46,6 +46,30 @@ Originally developed for the robot Eymo, EymOS has evolved into an independent p
 * Device control and process management for small-scale robots
 * Minimal resource usage, ideal for embedded systems and small robots
 * Easy integration with cloud services for advanced features
+
+## What's included
+
+Within the download you'll find the following directories and files:
+
+```text
+root/
+├── eymos/
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── camera.py
+│   ├── __init__.py
+│   ├── logger.py
+│   ├── service.py
+│   ├── service_manager.py
+│   └── utils.py
+├── examples/
+│   └── timer/
+├── LICENSE
+├── logo.png
+├── README.md
+├── requirements.txt
+└── setup.py
+```
 
 ## Installation
 
@@ -248,22 +272,6 @@ Some constants are defined in the service class, which can be used to configure 
 | MAX_ERRORS | The maximum number of consecutive errors that can occur before the service is stopped. Can be disabled by setting it to `-1`.        | `5` |
 | MAX_ERRORS_REBOOT | The maximum number of consecutive errors that can occur before **all the services** are rebooted. Can be disabled by setting it to `-1`. | `-1` (disabled) |
 
-
-## What's included
-
-Within the download you'll find the following directories and files:
-
-```text
-eymos/
-├── services/
-│   ├── __init__.py
-│   └── camera.py
-├── __init__.py
-├── log.py
-├── service.py
-├── service_manager.py
-└── utils.py
-```
 
 ## Bugs and feature requests
 Have a bug or a feature request? Please search for existing and closed issues. If your problem or idea is not addressed yet, [open a new issue](https://github.com/EymoLabs/eymos/issues/new).
