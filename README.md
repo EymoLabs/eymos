@@ -21,7 +21,7 @@
 - [What's included](#whats-included)
 - [Installation](#installation)
 	- [Prerequisites](#prerequisites)
-	- [Setup](#setup-with-pip)
+	- [Setup](#setup-with-pip-recommended)
 - [Usage](#usage)
 - [Services](#services)
 	- [First steps](#first-steps)
@@ -30,7 +30,6 @@
     - [Attributes](#attributes)
     - [Definitions](#definitions)
 - [ServiceManager](#servicemanager)
-  - [Methods](#methods)
 - [Utilities](#utilities)
   - [Logger](#logger)
   - [My OS](#my-os)
@@ -45,6 +44,7 @@
 
 
 ## Introduction
+
 EymOS is a lightweight and efficient middleware designed for robotics applications, inspired by the flexibility and modularity of systems like ROS, but optimized to be faster and lighter.
 
 Originally developed for the robot Eymo, EymOS has evolved into an independent platform that provides all the essential functionalities for node communication, device control, and process management, with a focus on simplicity and performance.
@@ -61,6 +61,7 @@ Originally developed for the robot Eymo, EymOS has evolved into an independent p
 
 
 ## What's included
+
 Within the download you'll find the following directories and files:
 
 ```text
@@ -68,13 +69,16 @@ root/
 ├── eymos/
 │   ├── services/
 │   │   ├── __init__.py
-│   │   └── camera.py
+│   │   ├── camera.py
+│   │   └── window.py
 │   ├── __init__.py
 │   ├── logger.py
 │   ├── service.py
 │   ├── service_manager.py
 │   └── utils.py
 ├── examples/
+│   ├── camera_timer/
+│   ├── hand_tracking/
 │   └── timer/
 ├── LICENSE
 ├── logo.png
@@ -115,7 +119,7 @@ sudo apt-get install python3-tk
 ```
 
 
-### Setup with pip
+### Setup with pip (recommended)
 Use `pip` to install the package from PyPI.
 
 1. Install the package using `pip`:
@@ -342,9 +346,7 @@ Some constants are defined in the service class, which can be used to configure 
 ## ServiceManager
 The `ServiceManager` class is used to manage the services in the robot, including all the necessary operations to start, stop, restart, reboot, and configure the services, allowing the interaction between them.
 
-
-### Methods
-The `ServiceManager` class provides the following methods to manage the services:
+The class provides the following methods to manage the services:
 
 | Method            | Description                                                                                                          |
 |-------------------|----------------------------------------------------------------------------------------------------------------------|
@@ -395,7 +397,8 @@ The following levels are available (require the `import logging` statement):
 #### Example
 
 ```python
-from eymos import log, logging
+import logging
+from eymos import log
 
 log("This is an info message")
 log("This is a debug message", logging.DEBUG)
