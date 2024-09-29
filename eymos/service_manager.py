@@ -1,7 +1,10 @@
 import os
+import sys
 import json
 import logging
+import warnings
 import platform
+from pynput import keyboard
 
 from .logger import LoggerManager, log
 from .service import Service
@@ -21,12 +24,31 @@ class ServiceManager:
 		if services is None:
 			services = {}
 
-		# Service manager information
-		self._config = None
+		# Set the services
 		self._services = services
 
 		# Set the configuration
-		self.set_config(config)
+		self._config = self.set_config(config)
+
+		# Initialize stop queue
+		self.stop_queue = []
+
+		# Listen if the escape key is pressed
+		if self._config['escape']:
+			listener = keyboard.Listener(on_press=self.__on_press)
+			listener.start()
+
+		# Hide logs
+		logging.getLogger('tensorflow').setLevel(logging.ERROR)
+		logging.getLogger('absl').setLevel(logging.ERROR)
+		logging.getLogger('cv2').setLevel(logging.ERROR)
+		logging.getLogger('PIL').setLevel(logging.ERROR)
+		logging.getLogger('matplotlib').setLevel(logging.ERROR)
+		logging.getLogger('urllib3').setLevel(logging.ERROR)
+		logging.getLogger('requests').setLevel(logging.ERROR)
+
+		# Hide warnings
+		warnings.filterwarnings("ignore", category=UserWarning)
 
 	def add(self, name: str, service: type[Service]):
 		"""Add a service to the manager.
@@ -95,6 +117,22 @@ class ServiceManager:
 		for name in self._services:
 			self._services[name].stop()
 
+		# Call the stop queue
+		for callback in self.stop_queue:
+
+			# Call the callback
+			callback()
+
+		# Clear the stop queue
+		self.stop_queue.clear()
+
+	def on_stop(self, callback: callable):
+		"""Add a callback to call when the services are stopped.
+		Args:
+			callback (callable): The callback to call.
+		"""
+		self.stop_queue.append(callback)
+
 	def restart(self):
 		"""Restart all services (in order)."""
 		# Stop all services
@@ -126,7 +164,7 @@ class ServiceManager:
 
 		# Exit the system
 		log('Exiting the system...')
-		exit()
+		sys.exit()
 
 	def set_config(self, config: dict):
 		"""Load the configuration.
@@ -148,6 +186,8 @@ class ServiceManager:
 			config['logging']['format'] = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 		if ('enable' not in config['logging']) or (type(config['logging']['enable']) is not bool):
 			config['logging']['enable'] = True
+		if ('escape' not in config) or (type(config['escape']) is not bool):
+			config['escape'] = True
 
 		# Set the configuration
 		self._config = config
@@ -173,6 +213,14 @@ class ServiceManager:
 
 		# Set the configuration
 		return self.set_config(config)
+
+	def __on_press(self, key):
+		"""Listen if the escape key is pressed.
+		Args:
+			key (keyboard.Key): The key pressed.
+		"""
+		if key == keyboard.Key.esc:
+			self.exit()
 
 	def __update_logging(self):
 		"""Update the logging configuration."""

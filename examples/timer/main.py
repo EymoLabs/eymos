@@ -1,5 +1,4 @@
 import time
-
 from eymos.service_manager import ServiceManager
 from services.timer import TimerService
 

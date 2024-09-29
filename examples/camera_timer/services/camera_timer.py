@@ -1,6 +1,3 @@
-import cv2
-from PIL import Image
-
 from eymos import Service, log
 from eymos.services import FrameType
 
