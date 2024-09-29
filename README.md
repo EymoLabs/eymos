@@ -21,7 +21,7 @@
 - [What's included](#whats-included)
 - [Installation](#installation)
 	- [Prerequisites](#prerequisites)
-	- [Setup](#setup)
+	- [Setup](#setup-with-pip)
 - [Usage](#usage)
 - [Services](#services)
 	- [First steps](#first-steps)
@@ -45,7 +45,6 @@
 
 
 ## Introduction
-
 EymOS is a lightweight and efficient middleware designed for robotics applications, inspired by the flexibility and modularity of systems like ROS, but optimized to be faster and lighter.
 
 Originally developed for the robot Eymo, EymOS has evolved into an independent platform that provides all the essential functionalities for node communication, device control, and process management, with a focus on simplicity and performance.
@@ -62,7 +61,6 @@ Originally developed for the robot Eymo, EymOS has evolved into an independent p
 
 
 ## What's included
-
 Within the download you'll find the following directories and files:
 
 ```text
@@ -92,7 +90,29 @@ root/
 
 ### Prerequisites
 Ensure you have the following installed on your system:
-- Python 3.12 or higher
+
+- Python 3.9 or higher
+- Tkinter (for the `WindowService` class)
+
+To install Tkinter, use the following commands:
+
+#### On Windows:
+No additional installation is required. Tkinter is included with Python by default.
+
+#### On MacOS:
+No additional installation is required too, but if any issue occurs, you can install it using [brew](https://brew.sh/):
+
+```bash
+brew install tcl-tk
+brew install python
+```
+
+#### On Linux:
+
+```bash
+sudo apt-get update
+sudo apt-get install python3-tk
+```
 
 
 ### Setup with pip
@@ -134,7 +154,7 @@ After installing the package, you need to create the services for your robot, wh
 Create a new Python file for your service, and define the class for the service. The service should inherit from the `Service` class provided by EymOS.
 
 ```python
-from eymos import Service, utils, log
+from eymos import Service, log
 
 class TimerService(Service):
 	def init(self):
@@ -262,12 +282,12 @@ class MyService(Service):
 ### Methods
 A service can define custom methods to perform specific actions or operations. These methods can be created as needed, and can be called from other services or external programs.
 
-| Method | Description | Required |
-| --- | --- | --- |
-| `init` | Initialize the service, setting up the variables and configurations. | Yes |
-| `destroy` | Destroy the service, cleaning up the resources used by the service. | Yes |
-| `before` | Perform actions before the loop starts. This method is called in the service thread, before the loop method. | No |
-| `loop` | Perform the main actions of the service. This method is called in the service thread, in a loop with a delay specified by the `loop_delay` attribute or the `LOOP_DELAY` constant. | No |
+| Method    | Description                                                                                                                                                                        | Required |
+|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| `init`    | Initialize the service, setting up the variables and configurations.                                                                                                               | Yes      |
+| `destroy` | Destroy the service, cleaning up the resources used by the service.                                                                                                                | Yes      |
+| `before`  | Perform actions before the loop starts. This method is called in the service thread, before the loop method.                                                                       | No       |
+| `loop`    | Perform the main actions of the service. This method is called in the service thread, in a loop with a delay specified by the `loop_delay` attribute or the `LOOP_DELAY` constant. | No       |
 
 > [!WARNING]
 > When defining the `before` or `loop` methods, a new thread will be created automatically for the service. Remember to call blocking methods here, to avoid blocking the main thread.
@@ -277,15 +297,15 @@ A service can define custom methods to perform specific actions or operations. T
 
 Additionally, a service has some reserved methods that should not be overridden:
 
-| Method | Description |
-| --- | --- |
-| `start` | Start the service, initializing the service and starting the service thread. When the service is started, automatically starts all the other services that have not been started yet. If the service has dependencies, starts the dependencies first. |
-| `stop` | Stop the service, stopping the service thread and cleaning up the resources used by the service. When the service is stopped, automatically stops all the other services that depend on this service. |
-| `is_initialized` | Check if the service has been initialized. |
-| `__init__` | Initialize the service instance, setting up the service attributes. |
-| `__reboot` | Reboot all the services, stopping and starting all the services. |
-| `__thread__execution` | Execute the service thread, calling the `before` and `loop` methods in a loop with the specified delay. |
-| `__start_other_service` | Start another service that has not been started yet. |
+| Method                  | Description                                                                                                                                                                                                                                           |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `start`                 | Start the service, initializing the service and starting the service thread. When the service is started, automatically starts all the other services that have not been started yet. If the service has dependencies, starts the dependencies first. |
+| `stop`                  | Stop the service, stopping the service thread and cleaning up the resources used by the service. When the service is stopped, automatically stops all the other services that depend on this service.                                                 |
+| `is_initialized`        | Check if the service has been initialized.                                                                                                                                                                                                            |
+| `__init__`              | Initialize the service instance, setting up the service attributes.                                                                                                                                                                                   |
+| `__reboot`              | Reboot all the services, stopping and starting all the services.                                                                                                                                                                                      |
+| `__thread__execution`   | Execute the service thread, calling the `before` and `loop` methods in a loop with the specified delay.                                                                                                                                               |
+| `__start_other_service` | Start another service that has not been started yet.                                                                                                                                                                                                  |
 
 
 ### Attributes
@@ -469,15 +489,16 @@ The service can be configured with the following parameters:
 
 | Parameter           | Description                              | Default                               |
 |---------------------|------------------------------------------|---------------------------------------|
-| `title`             | The title of the window.                 | `"EymOS"`                             |
-| `resizable`         | Allow the window to be resized.          | `False`                               |
 | `always_on_top`     | Keep the window always on top.           | `True`                                |
 | `background`        | The background color of the window.      | `"black"`                             |
 | `border`            | If the window has a border.              | `False`                               |
-| `width`             | The width of the window.                 | `480`                                 |
-| `height`            | The height of the window.                | `270`                                 |
 | `draggable`         | Allow the window to be dragged.          | `True`                                |
+| `fps`               | The frames per second of the window.     | `60`                                  |
+| `height`            | The height of the window.                | `270`                                 |
+| `resizable`         | Allow the window to be resized.          | `False`                               |
+| `title`             | The title of the window.                 | `"EymOS"`                             |
 | `toggle_visibility` | Allow the window to be hidden and shown. | `{"key": "h", "modifiers": ["ctrl"]}` |
+| `width`             | The width of the window.                 | `480`                                 |
 
 
 

@@ -1,5 +1,4 @@
 import cv2
-from PIL import Image
 import mediapipe as mp
 from eymos import Service
 
@@ -8,11 +7,11 @@ class HandTrackingService(Service):
 	def init(self):
 		"""Initialize the service."""
 		# Setting up initial attributes
+		self._loop_delay = 0.04   # Delay between each loop
 		self.__hand_detector = None  # Placeholder for the hand detection model
 		self.__model_complexity = self._config.get('model_complexity', 0)  # Simplified hand model for real-time
-		self.__min_detection_confidence = self._config.get('min_detection_confidence', 0.5)  # Minimum confidence to detect hands
+		self.__min_detection_confidence = self._config.get('min_detection_confidence', 0.5)   # Minimum confidence to detect hands
 		self.__min_tracking_confidence = self._config.get('min_tracking_confidence', 0.5)  # Minimum confidence to track hands
-		self._loop_delay = 0.04  # Control the loop speed for the service
 
 	def destroy(self):
 		"""Clean up resources before stopping the service."""
