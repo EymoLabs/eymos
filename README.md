@@ -40,6 +40,7 @@
 - [Creators](#creators)
 - [Collaborators](#collaborators)
 - [License](#license)
+- [Security](#security)
 
 
 
@@ -65,7 +66,11 @@ Originally developed for the robot Eymo, EymOS has evolved into an independent p
 Within the download you'll find the following directories and files:
 
 ```text
-root/
+eymos/
+├── examples/
+│   ├── camera_timer/
+│   ├── hand_tracking/
+│   └── timer/
 ├── eymos/
 │   ├── services/
 │   │   ├── __init__.py
@@ -76,14 +81,11 @@ root/
 │   ├── service.py
 │   ├── service_manager.py
 │   └── utils.py
-├── examples/
-│   ├── camera_timer/
-│   ├── hand_tracking/
-│   └── timer/
 ├── LICENSE
 ├── logo.png
 ├── README.md
 ├── requirements.txt
+├── SECURITY.md
 └── setup.py
 ```
 
@@ -548,4 +550,11 @@ Special thanks to the following people from the [EymoLabs](https://github.com/Ey
 
 
 ## License
+
 This project is licensed under a custom license, that allows you to **use and modify the code** for any purpose, as long as you **provide attribution to the original authors**, but you **cannot distribute the code** or any derivative work **without permission**. For more information, see the [LICENSE](LICENSE).
+
+
+
+## Security
+
+If you discover a security vulnerability within EymOS, please see [SECURITY.md](SECURITY.md) for more information on how to report it.
