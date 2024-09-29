@@ -1,5 +1,5 @@
-import base64
 import cv2
+import base64
 from PIL import Image
 from eymos.service import Service
 
@@ -13,8 +13,8 @@ class FrameType:
 
 
 class CameraService(Service):
-	DEFAULT_FPS = 10
-	DEFAULT_RESOLUTION = [512, 288]
+	DEFAULT_FPS = 25
+	DEFAULT_RESOLUTION = [640, 480]
 
 	def __init__(self, name: str, config: dict, services: dict):
 		"""Initialize the service.

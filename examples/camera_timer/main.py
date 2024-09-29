@@ -1,7 +1,5 @@
-import time
-
+from eymos.services import CameraService
 from eymos.service_manager import ServiceManager
-from eymos.services.camera import CameraService
 from services.camera_timer import CameraTimerService
 
 
